@@ -1,0 +1,6 @@
+[program:nginx]
+directory=${V2RAY_PATH}
+command=nginx -g 'daemon off;'
+autostart=true
+autorestart=true
+stopsignal=INT

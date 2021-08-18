@@ -1,0 +1,83 @@
+{
+    "stats": {},
+    "api": {
+        "tag": "api",
+        "services": [
+            "StatsService",
+	    "HandlerService"
+        ]
+    },
+    "policy": {
+        "levels": {
+            "0": {
+                "statsUserUplink": true,
+                "statsUserDownlink": true
+            }
+        },
+        "system": {
+            "statsInboundUplink": true,
+            "statsInboundDownlink": true
+        }
+    },
+    "inbounds": [{
+            "tag": "${V2FLY_VMESS_TAG_NAME}",
+            "port": ${V2FLY_VMESS_LISTEN_PORT},
+            "listen": "${V2FLY_VMESS_LISTEN_ADDR}",
+            "protocol": "vmess",
+            "settings": {
+                "clients": [{
+                        "email": "please replace the clients",
+                        "id": "363d519e-1d4e-490b-a1cb-8265b5855e80",
+                        "level": 0,
+                        "alterId": 64
+                    }]
+            },
+            "streamSettings": {
+                "network": "ws",
+                "wsSettings": {
+                    "path": "/pdycbkfgwvenulso"
+                }
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls"
+                ]
+            }
+        },
+        {
+            "tag": "api",
+            "listen": "${V2FLY_API_LISTEN_ADDR}",
+            "port": ${V2FLY_API_LISTEN_PORT},
+            "protocol": "dokodemo-door",
+            "settings": {
+                "address": "0.0.0.0"
+            }
+        }
+    ],
+    "outbounds": [{
+            "protocol": "freedom",
+            "settings": {}
+        },
+        {
+            "protocol": "blackhole",
+            "settings": {},
+            "tag": "ban"
+        }
+    ],
+    "routing": {
+        "settings": {
+            "rules": [
+                {
+                    "inboundTag": [
+                        "api"
+                    ],
+                    "outboundTag": "api",
+                    "type": "field"
+                }
+            ]
+        },
+        "strategy": "rules"
+    }
+}

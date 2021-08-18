@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# envsubst
+envsubst '${V2RAY_PATH} $V2FLY_VMESS_TAG_NAME $V2FLY_VMESS_LISTEN_PORT $V2FLY_VMESS_LISTEN_ADDR $V2FLY_API_LISTEN_ADDR $V2FLY_API_LISTEN_PORT $NGINX_HTTP_LISTEN_PORT $NGINX_HTTPS_LISTEN_PORT $SERVER_NAME' < /etc/nginx/vhosts/v2fly.conf.template > /etc/nginx/vhosts/v2fly.conf
+envsubst '${V2RAY_PATH} $V2FLY_VMESS_TAG_NAME $V2FLY_VMESS_LISTEN_PORT $V2FLY_VMESS_LISTEN_ADDR $V2FLY_API_LISTEN_ADDR $V2FLY_API_LISTEN_PORT $NGINX_HTTP_LISTEN_PORT $NGINX_HTTPS_LISTEN_PORT $SERVER_NAME' < /v2ray/config.json.template > /v2ray/config.json
+envsubst '${V2RAY_PATH} $V2FLY_VMESS_TAG_NAME $V2FLY_VMESS_LISTEN_PORT $V2FLY_VMESS_LISTEN_ADDR $V2FLY_API_LISTEN_ADDR $V2FLY_API_LISTEN_PORT $NGINX_HTTP_LISTEN_PORT $NGINX_HTTPS_LISTEN_PORT $SERVER_NAME' < /etc/supervisor/conf.d/nginx.conf.template > /etc/supervisor/conf.d/nginx.conf
+envsubst '${V2RAY_PATH} $V2FLY_VMESS_TAG_NAME $V2FLY_VMESS_LISTEN_PORT $V2FLY_VMESS_LISTEN_ADDR $V2FLY_API_LISTEN_ADDR $V2FLY_API_LISTEN_PORT $NGINX_HTTP_LISTEN_PORT $NGINX_HTTPS_LISTEN_PORT $SERVER_NAME' < /etc/supervisor/conf.d/v2fly.conf.template > /etc/supervisor/conf.d/v2fly.conf
+
+# run supervisord
+supervisord -c /etc/supervisor/supervisord.conf

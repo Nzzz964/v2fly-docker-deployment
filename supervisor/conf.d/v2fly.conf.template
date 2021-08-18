@@ -1,0 +1,6 @@
+[program:v2fly]
+directory=${V2RAY_PATH}
+command=v2ray
+autostart=true
+autorestart=true
+stopsignal=INT
