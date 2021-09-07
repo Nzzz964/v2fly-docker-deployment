@@ -1,4 +1,16 @@
-FROM ubuntu:bionic
+FROM ubuntu:bionic as builder
+
+WORKDIR /root
+
+COPY builder.sh .
+COPY ./sources.list /etc/apt/sources.list
+
+RUN chmod +x builder.sh \
+    && ./builder.sh
+
+COPY ./config.json.template ./v2ray/
+
+FROM ubuntu:bionic as app
 
 ENV V2RAY_PATH=/v2ray \
     PATH=${PATH}:${V2RAY_PATH} \
@@ -15,7 +27,7 @@ WORKDIR ${V2RAY_PATH}
 
 COPY ./sources.list /etc/apt/sources.list
 
-RUN  apt update \
+RUN apt update \
     && apt install -y \
     nginx \
     supervisor \
@@ -24,13 +36,13 @@ RUN  apt update \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
-COPY ./v2ray ${V2RAY_PATH}
-
 COPY ./nginxconf /etc/nginx
 COPY ./fakeweb /fakeweb
 COPY ./ssl /ssl
 
 COPY ./supervisor /etc/supervisor
+
+COPY --from=builder /root/v2ray ${V2RAY_PATH}
 
 COPY ./init.sh /init.sh
 RUN chmod +x /init.sh
