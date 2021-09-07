@@ -37,6 +37,8 @@
 
 ### 构建步骤
 
+1. 修改 `config.json.template:28` `clients` 配置
+
 1. 将证书放置到 `ssl` 目录下 ( 包含 fullchain.cer private.key ) 名字必须相同
 
 2. 将网站模板放置到 `fakeweb` 目录下 ( 入口为 index.html )
